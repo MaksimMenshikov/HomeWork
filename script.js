@@ -1,4 +1,5 @@
 
-let yearBirth=prompt('Введите год вашего рождения в формате 4 значного числа');
-let yourAge=2022-yearBirth;
-alert('Ваш возраст : '+yourAge);
+const enteredNubber1=prompt('Введите первое произвольное число');
+const enteredNubber2=prompt('Введите второе произвольное число')
+const result=Number(enteredNubber1)+Number(enteredNubber2);
+alert(enteredNubber1+'+'+enteredNubber2+'='+result);
