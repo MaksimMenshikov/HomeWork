@@ -27,9 +27,9 @@ switch(mathMetod){
 }
 function inputData(num)
 {
-do{
-    val=prompt(`Введите ${num} число :`);
-}while (val===null||val===''||isNaN(val))
-val=Number(val);
-return val;
+    let val;
+    do{
+       val=prompt(`Введите ${num} число :`);
+    }while (val===null||val===''||isNaN(val))
+    return Number(val);
 }
