@@ -1,35 +1,20 @@
-let operandA;
-let operandB;
-let mathMetod;
-let result;
 
-operandA=inputData(1);
-operandB=inputData(2);
+let enteredNumber = prompt("Введите  число больше 0");
 
-do{
-    mathMetod=prompt("Выберите действие ( + - * / )");
-}while (mathMetod===null||mathMetod===''||(mathMetod!=='-'&&mathMetod!=='+'&&mathMetod!=='*'&&mathMetod!=='/'))
-
-switch(mathMetod){
-    case "+":
-        result=operandA+operandB; alert(`${operandA}+${operandB}=${result}`); 
-    break;
-    case "-":
-        result=operandA-operandB; alert(`${operandA}-${operandB}=${result}`); 
-    break;
-    case "*":
-        result=operandA*operandB; alert(`${operandA}*${operandB}=${result}`); 
-    break;
-    case "/":
-        result=operandA/operandB; alert(`${operandA}/${operandB}=${result}`); 
-    break;
-    
+while (isenteredNumberInvalid(enteredNumber)) {
+    enteredNumber = prompt("Некорректный ввод. Введите число больше 0");
 }
-function inputData(num)
-{
-    let val;
-    do{
-       val=prompt(`Введите ${num} число :`);
-    }while (val===null||val===''||isNaN(val))
-    return Number(val);
+let sumOddNumbers=0;
+let sumEvenNumbers=0;
+for (let i = 1; i <= enteredNumber; i++) {
+    if (i % 2 === 1){
+        sumOddNumbers += i;
+    }
+    else sumEvenNumbers+=i;
+  }
+  alert (`Сумма нечетных чисел: ${sumOddNumbers}`);
+  alert (`Сумма четных чисел: ${sumEvenNumbers}`);
+
+function isenteredNumberInvalid(enteredNumber) {
+    return enteredNumber === null || enteredNumber.trim() === '' || isNaN(enteredNumber)||enteredNumber<=0;
 }
