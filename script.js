@@ -1,7 +1,6 @@
 const action = getAction();
-const operands = getOperands('Введите операнды через запятую');
+const operandsArray = getOperands('Введите операнды через запятую');
 let result=null;
-const operandsArray=operands.split(",");
 
 result=+operandsArray[0];
 for(let i=1;i<operandsArray.length;i++){
@@ -31,7 +30,8 @@ function getOperands(title) {
     while (isOperandsInvalid(operand)) {
         operand = prompt(title);
     }
-    return operand;
+   
+    return operand.split(",");
 }
 
 function isOperandsInvalid(operand) {
