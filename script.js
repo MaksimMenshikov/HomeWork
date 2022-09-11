@@ -1,8 +1,6 @@
 const action = getAction();
 const operandsArray = getOperands('Введите операнды через запятую');
-let result=null;
-
-result=+operandsArray[0];
+let result=+operandsArray[0];
 for(let i=1;i<operandsArray.length;i++){
      result = calculate(result,+operandsArray[i]);
 }
