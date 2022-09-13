@@ -21,11 +21,14 @@ calculateStudentAverageMark(students[2]);
 calculateGroupAverageMark(students);
 
 function calculateStudentAverageMark(student){
-  return student.marks.reduce((acc,item)=>acc+item)/student.marks.length;
-  
+  return everageArray(student.marks);
 }
-
+  
 function calculateGroupAverageMark(studentsArrays){
   const allMarksArray=studentsArrays.reduce((acc,item)=>acc.concat(item.marks),[]);
-  return allMarksArray.reduce((acc,item)=>acc+item)/allMarksArray.length;
+  return everageArray(allMarksArray);
+}
+
+function everageArray(value){
+ return value.reduce((acc,item)=>acc+item)/value.length;
 }
