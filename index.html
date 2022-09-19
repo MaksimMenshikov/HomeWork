@@ -6,8 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="script.js" defer></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
+    <div class="main">
+        <h3>Калькулятор с помощью DOM </h3>
+        <input type="text"   id="first-number">
+        <select  id="operation">
+            <option value="+">+</option>
+            <option value="-" >-</option>
+            <option value="*">*</option>
+            <option value="/">/</option>
+        </select>
+        <input type="text"  id="second-number">
+        <button id="Calculate">Calculate</button>
+        <div id="result" class="main-result"></div>
+    </div>
 </body>
 </html>
