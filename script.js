@@ -2,9 +2,7 @@
 const btn = document.querySelector('#Calculate');
 const firstNumber=document.querySelector('#first-number');
 const secondNumber=document.querySelector('#second-number');
-const action = document.querySelector('#operation');
 const resultEl = document.querySelector('#result');
-let result=0 ;
 btn.addEventListener('click', onBtnClick);
 //***********Описание функций**************/
 function onBtnClick() {
@@ -14,14 +12,14 @@ function onBtnClick() {
     resultEl.textContent="Некорректный ввод второго числа";
   }
   else{
-  result=+firstNumber.value;
-  result = calculate(result,+secondNumber.value);
+  const action = document.querySelector('#operation');
+  let result = calculate(+firstNumber.value,+secondNumber.value,action.value);
   resultEl.textContent=`Результат: ${firstNumber.value}${action.value}${secondNumber.value} = ${result}`;
   }
 }
 
-function calculate(a, b) {
-  switch (action.value) {
+function calculate(a, b,action) {
+  switch (action) {
     case '+':
       return a + b;
     case '-':
