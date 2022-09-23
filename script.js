@@ -1,36 +1,54 @@
-
-const btn = document.querySelector('#Calculate');
-const firstNumber=document.querySelector('#first-number');
-const secondNumber=document.querySelector('#second-number');
-const resultEl = document.querySelector('#result');
+const taskElem=document.querySelector('#taskElement');
+const liElem=document.querySelector('#liElement');
+const btn = document.querySelector('#addInformation');
 btn.addEventListener('click', onBtnClick);
-//***********Описание функций**************/
-function onBtnClick() {
-  if(isValInvalid(firstNumber.value)){
-    resultEl.textContent="Некорректный ввод первого числа";
-  }else if(isValInvalid(secondNumber.value)){
-    resultEl.textContent="Некорректный ввод второго числа";
-  }
-  else{
-  const action = document.querySelector('#operation');
-  let result = calculate(+firstNumber.value,+secondNumber.value,action.value);
-  resultEl.textContent=`Результат: ${firstNumber.value}${action.value}${secondNumber.value} = ${result}`;
-  }
+
+//*************************//
+
+function onBtnClick(){
+
+     if (!validateTasks()){
+         return;
+     }
+    const newTask = getTask();
+    addNewTask(newTask);
+     resetForm();
 }
 
-function calculate(a, b,action) {
-  switch (action) {
-    case '+':
-      return a + b;
-    case '-':
-      return a - b;
-    case '*':
-      return a * b;
-    case '/':
-      return a / b;
-  }
+function getTask(){
+    return taskElem.value;
+               
 }
 
-function isValInvalid(operand) {
-  return operand === null || operand.trim() === '' || isNaN(operand);
+function addNewTask(task){
+    const taskEl = generateNewTask(task);
+    liElem.append(taskEl);
 }
+
+function generateNewTask(value){
+    const liEl = document.createElement('li');
+    liEl.textContent = value;
+    liEl.addEventListener('click', ()=>liEl.classList.toggle("task-done"));
+    return liEl;
+}
+
+function resetForm(){
+    taskElem.value = '';
+}
+
+function validateTasks(){
+    resetValidation();
+    
+    if (taskElem.value === '') {
+        taskElem.classList.add('invalid-input');
+        return false
+    };
+
+    return true
+}
+
+function resetValidation(){
+    taskElem.classList.remove('invalid-input');
+  
+}
+

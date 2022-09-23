@@ -1,8 +1,20 @@
 .main{
+    font-size: 25px;
     text-align: center;
     margin-top: 70px;
  
 }
-.main-result{
-    margin-top: 20px;
+
+.li-element{
+    text-align: left;
+    margin-left: 600px;
+}
+
+.invalid-input {
+    background-color: red
+  }
+
+.task-done{
+    text-decoration: line-through;
+    color: red;
 }
