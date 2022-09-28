@@ -1,54 +1,84 @@
-const taskElem=document.querySelector('#taskElement');
-const liElem=document.querySelector('#liElement');
-const btn = document.querySelector('#addInformation');
-btn.addEventListener('click', onBtnClick);
+const DELETE_BTN_CLASS = 'delete-btn';
 
-//*************************//
+const contactsListEl = document.querySelector('#contactsList');
+const nameEl = document.querySelector('#name');
+const surnameEl = document.querySelector('#surname');
+const phoneEl = document.querySelector('#phone');
+const addBtnEl = document.querySelector('#addContactBtn');
+const errorMessageEl = document.querySelector('#errorContainer');
+const formInput=document.querySelector('#ContactListInput')
 
-function onBtnClick(){
+const taskITemTemplate = document.querySelector('#todoItemTemplate').innerHTML;
 
-     if (!validateTasks()){
-         return;
-     }
-    const newTask = getTask();
-    addNewTask(newTask);
-     resetForm();
+addBtnEl.addEventListener('click', onAddContactBtnClick);
+contactsListEl.addEventListener('click', onFormClick);
+formInput.addEventListener('input', onFormInput);
+
+function onAddContactBtnClick(){
+   if (!validateInput()) return;
+    const newContact = getFormValues();
+
+    addContact(newContact);
+    resetForm();
+    
 }
 
-function getTask(){
-    return taskElem.value;
-               
+function onFormInput(){
+    validateInput();
 }
 
-function addNewTask(task){
-    const taskEl = generateNewTask(task);
-    liElem.append(taskEl);
+function onFormClick(event) {
+    
+    if (event.target.classList.contains(DELETE_BTN_CLASS)) {
+        deleteContact(event.target.parentElement.parentElement);
+    }
+}
+function deleteContact(contactEl) {
+    contactEl.remove();
 }
 
-function generateNewTask(value){
-    const liEl = document.createElement('li');
-    liEl.textContent = value;
-    liEl.addEventListener('click', ()=>liEl.classList.toggle("task-done"));
-    return liEl;
+
+function getFormValues(){
+    return {
+        name: nameEl.value,
+        surname: surnameEl.value,
+        phone: phoneEl.value,
+    }
+}
+
+function addContact(contact) {
+   
+    const contactHtml = generateContactHtml(contact);
+    contactsListEl.insertAdjacentHTML('beforeEnd', contactHtml); 
+}
+
+function generateContactHtml(contactAdded) {
+    
+   let template= taskITemTemplate.replaceAll('{{name}}', contactAdded.name ) 
+      .replaceAll('{{surname}}', contactAdded.surname)
+      .replaceAll('{{phone}}', contactAdded.phone);
+    return template;
 }
 
 function resetForm(){
-    taskElem.value = '';
+    nameEl.value = '';
+    surnameEl.value = '';
+    phoneEl.value = '';
 }
 
-function validateTasks(){
-    resetValidation();
-    
-    if (taskElem.value === '') {
-        taskElem.classList.add('invalid-input');
-        return false
-    };
-
-    return true
+function validateInput() {
+    const value =getFormValues();
+    return validateValues(value);
 }
 
-function resetValidation(){
-    taskElem.classList.remove('invalid-input');
-  
+function validateValues(value) {
+    if ((value.name === '')||(value.surname=== '')||(value.phone=== '')) {
+        errorMessageEl.textContent ='Adding a new contact is impossible, entered all fields';
+        addBtnEl.disabled = true;
+        return false;
+    } else {
+        errorMessageEl.textContent = '';
+        addBtnEl.disabled = false;
+        return true;
+    }
 }
-

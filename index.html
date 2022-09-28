@@ -1,20 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="script.js" defer></script>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="main">
-        <h3>ToDo List </h3>
-        <ol id="liElement" class="li-element">    
-        </ol>
-        <input type="text" id="taskElement" placeholder="Input new task" size="60" >
-        <button id="addInformation">Add Task</button>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link rel="stylesheet" href="style.css" />
+        <script src="script.js" defer></script>
+    </head>
+    <body class="oranges-cases-third">
+     <div id="ContactListInput">
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Surname</th>
+                    <th>Phone</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="contactsList"></tbody>
+            <tfoot>
+                <tr>
+                    <td><input id="name" placeholder="Contact name" /></td>
+                    <td><input id="surname" placeholder="Contact surname" /></td>
+                    <td><input id="phone" placeholder="Contact phone" /></td>
+                    <td><button id="addContactBtn" >Add</button></td>
+                </tr>
+                <div  id="errorContainer"></div>
+            </tfoot>
+            
+        </table>     
     </div>
-</body>
+        <script type="text/template" id="todoItemTemplate">
+            <tr class="task-item">
+                <td>{{name}}</td>
+                <td>{{surname}}</td>
+                <td>{{phone}}</td>
+                <td><button  class="delete-btn">Delete</button></td>
+            </tr>
+        </script>
+    </body>
 </html>

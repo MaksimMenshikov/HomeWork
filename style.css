@@ -1,20 +1,5 @@
-.main{
-    font-size: 25px;
-    text-align: center;
-    margin-top: 70px;
- 
-}
 
-.li-element{
-    text-align: left;
-    margin-left: 600px;
-}
-
-.invalid-input {
-    background-color: red
+  .delete-btn {
+    float: right;
   }
-
-.task-done{
-    text-decoration: line-through;
-    color: red;
-}
+  
