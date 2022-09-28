@@ -6,7 +6,7 @@ const surnameEl = document.querySelector('#surname');
 const phoneEl = document.querySelector('#phone');
 const addBtnEl = document.querySelector('#addContactBtn');
 const errorMessageEl = document.querySelector('#errorContainer');
-const formInput=document.querySelector('#ContactListInput')
+const formInput=document.querySelector('#ContactListInput');
 
 const taskITemTemplate = document.querySelector('#todoItemTemplate').innerHTML;
 

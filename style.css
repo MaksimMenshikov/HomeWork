@@ -1,4 +1,13 @@
-
+.main{
+  text-align: center;
+  background-color: azure;
+}
+.table{
+  margin: auto;
+}
+.error-mesage{
+  color: red;
+}
   .delete-btn {
     float: right;
   }
