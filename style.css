@@ -1,14 +1,30 @@
-.main{
-  text-align: center;
-  background-color: azure;
+
+.task-list {
+    margin-bottom: 20px;
 }
-.table{
-  margin: auto;
+.task-not-done {
+    color: #555;
+    border: 1px solid #bbb;
+    cursor: pointer;
+    padding: 10px 20px;
+    margin: 5px 0;
+    font-size: 20px;
+    background-color: lightyellow;
 }
-.error-mesage{
-  color: red;
+
+.task-done {
+  color: #555;
+  border: 1px solid #bbb;
+  cursor: pointer;
+  padding: 10px 20px;
+  margin: 5px 0;
+  font-size: 20px;
+    background-color: lightgreen;
 }
-  .delete-btn {
+.delete-btn {
     float: right;
-  }
-  
+}
+
+#todoItemTemplate {
+    display: none;
+}
