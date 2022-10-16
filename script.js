@@ -57,15 +57,9 @@ function fetchTodoList() {
         .then((res) => res.json())
         .then((data) => {
             list = data;
-            list.forEach(addClass);
             renderTodoList(list);
         });
 }
-function addClass(todo) {
-    todo.completed?todo.completed=TASK_DONE_CLASS:todo.completed=TASK_NOT_DONE_CLASS;   
-}
-
-
 function renderTodoList(list) {
     taskListEl.innerHTML = '';
     list.forEach(renderTodo);
@@ -81,7 +75,7 @@ function getTodoHtml({ id, title, completed}) {
     return taskITemTemplate
         .replaceAll('{{id}}', id)
         .replaceAll('{{title}}', title)
-        .replaceAll('{{completed}}', completed);
+        .replaceAll('{{completed}}',completed ? TASK_DONE_CLASS : TASK_NOT_DONE_CLASS);
 }
 
 function saveTodo(todo) {
@@ -92,6 +86,7 @@ function saveTodo(todo) {
 
 function addTodo(todo) {
     todo.id = Date.now();
+    todo.completed = false;
     list.push(todo);
     renderTodoList(list);
 }
@@ -148,7 +143,7 @@ function validateValue(value) {
 }
 function changeStatus(id,condition){
     const selectedTodo = list.find((item) => item.id === id);
-    if (condition===done) selectedTodo.completed=TASK_DONE_CLASS;
-    else selectedTodo.completed=TASK_NOT_DONE_CLASS;
+    if (condition===done) selectedTodo.completed=true;
+    else selectedTodo.completed=false;
     renderTodoList(list);
 }
