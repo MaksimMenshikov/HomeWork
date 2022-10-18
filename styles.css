@@ -1,0 +1,29 @@
+body{
+    background-color: #f6ededd7;
+}
+.container{
+    padding-top: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: center; 
+}
+table{
+   border: 3px solid grey;
+   border-collapse: collapse;
+}
+th { 
+    text-align: center;
+    background: #ccc; 
+    padding: 5px; 
+    border: 1px solid black; 
+   }
+td { 
+    padding: 5px; 
+    border: 1px solid black; 
+   }
+.invalid-input {
+    background-color: red
+  }
+.hidden {
+    display: none;
+  }

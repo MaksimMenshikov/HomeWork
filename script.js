@@ -1,149 +1,195 @@
-const TASK_NOT_DONE_CLASS = 'task-not-done';
+const API_URL = 'https://5dd3d5ba8b5e080014dc4bfa.mockapi.io/users/';
 const DELETE_BTN_CLASS = 'delete-btn';
-const TASK_DONE_CLASS = 'task-done';
-const done =true;
+const EDIT_BTN_CLASS = 'edit-btn';
+const INVALID_INPUT_CLASS = 'invalid-input';
+const CONTACT_ITEM_CLASS = '.contact-item';
 
-
+const contactTemplate = document.querySelector('#contactTemplate').innerHTML;
+const contactsListEl = document.querySelector('#contactsList');
 const idEl = document.querySelector('#id');
-const taskListEl = document.querySelector('#taskList');
-const taskNameInput = document.querySelector('#taskNameInput');
-const newTaskForm = document.querySelector('#newTaskForm');
-const errorContainerEl = document.querySelector('#errorContainer');
-const taskITemTemplate = document.querySelector('#todoItemTemplate').innerHTML;
+const nameEl = document.querySelector('#name');
+const surnameEl = document.querySelector('#surname');
+const emailEl = document.querySelector('#email');
+const addBtnEl = document.querySelector('#addContactBtn');
+const tableFooter = document.querySelector('#footer');
+const formRowEl = document.querySelector('#formTr');
 
-newTaskForm.addEventListener('submit', onNewTaskFormSubmit);
-taskNameInput.addEventListener('input', onTaskNameInput);
-taskListEl.addEventListener('click', onListClick);
+addBtnEl.addEventListener('click', onAddContactBtnClick);
+contactsListEl.addEventListener('click', onContactsListClick);
+
+nameEl.addEventListener('input', onInputInput);
+surnameEl.addEventListener('input', onInputInput);
+emailEl.addEventListener('input', onInputInput);
 
 let list = [];
 
 init();
 
-function onNewTaskFormSubmit(event) {
-    event.preventDefault();
+function onInputInput(e) {
+    validateInput(e.target);
+}
 
-    if (!validateInput()) return;
+function onContactsListClick(e) {
+    if (e.target.classList.contains(DELETE_BTN_CLASS)) {
+        const contactId = getContactId(e.target);
+        deleteContact(contactId);
+    }
+    if (e.target.classList.contains(EDIT_BTN_CLASS)) {
+        const contactId = getContactId(e.target);
+        const tr = e.target.closest(CONTACT_ITEM_CLASS);
+        tr.classList.add('hidden');
+        tr.insertAdjacentElement('afterend', formRowEl);
 
-    const newTodo = getFormData();
-    saveTodo(newTodo);
+        editContact(contactId);
+    }
+}
+
+function onAddContactBtnClick() {
+    if (!validateValues()) {
+        return;
+    }
+
+    const newContact = getValues();
+
+    saveContact(newContact);
     resetForm();
 }
 
-
-function onListClick(e) {
-   
-    if (e.target.classList.contains(DELETE_BTN_CLASS)) {
-        const todoId = gettodoId(e.target.parentElement);
-        deleteTodo(todoId);
-    }
-    else if (e.target.classList.contains(TASK_NOT_DONE_CLASS)) {
-        toggleTodo(e.target);
-        const todoId = gettodoId(e.target);
-        changeStatus(todoId,done);
-           }
-    else if (e.target.classList.contains(TASK_DONE_CLASS)) {
-        toggleTodo(e.target);
-        const todoId = gettodoId(e.target);
-        changeStatus(todoId)
-    }
-    }
-
 function init() {
-    fetchTodoList();
-    renderTodoList(list);
+    fetchContactList().then(() => renderContacts(list));  
 }
-function fetchTodoList() {
-    fetch('https://jsonplaceholder.typicode.com/todos?_limit=10') // Promise
+function fetchContactList() {
+    return fetch(API_URL)
         .then((res) => res.json())
         .then((data) => {
             list = data;
-            renderTodoList(list);
         });
 }
-function renderTodoList(list) {
-    taskListEl.innerHTML = '';
-    list.forEach(renderTodo);
-}
-function renderTodo(todo) {
-    const todoHtml = getTodoHtml(todo);
 
-    taskListEl.insertAdjacentHTML('beforeend', todoHtml);
+
+function renderContacts(list) {
+    contactsListEl.innerHTML = '';
+    list.forEach(renderContact);
 }
 
-function getTodoHtml({ id, title, completed}) {
-    
-    return taskITemTemplate
+
+function renderContact(contact) {
+    const contactHtml = getContactHtml(contact);
+
+    contactsListEl.insertAdjacentHTML('beforeend', contactHtml);
+}
+
+function getContactHtml({ id, name, surname, email }) {
+    return contactTemplate
         .replaceAll('{{id}}', id)
-        .replaceAll('{{title}}', title)
-        .replaceAll('{{completed}}',completed ? TASK_DONE_CLASS : TASK_NOT_DONE_CLASS);
+        .replaceAll('{{name}}', name)
+        .replaceAll('{{surname}}', surname)
+        .replaceAll('{{email}}', email);
 }
 
-function saveTodo(todo) {
-    if (!todo.id) {
-        addTodo(todo);
-}
-}
-
-function addTodo(todo) {
-    todo.id = Date.now();
-    todo.completed = false;
-    list.push(todo);
-    renderTodoList(list);
-}
-
-
-
-function deleteTodo(id) {
-    list = list.filter((item) => item.id !== id);
-
-    renderTodoList(list);
-}
-
-function gettodoId(elem) {
-    return +elem.dataset.contactId;
-}
-
-
-function onTaskNameInput() {
-    validateInput();
-}
-
-function validateInput() {
-    const value = taskNameInput.value;
-
-    return validateValue(value);
-}
-
-function getFormData() {
+function getValues() {
     return {
-        title: taskNameInput.value,
-        completed:TASK_NOT_DONE_CLASS
+        id: +idEl.value,
+        name: nameEl.value,
+        surname: surnameEl.value,
+        email: emailEl.value,
     };
 }
 
-function resetForm() {
-    taskNameInput.value = '';
-}
-
-function toggleTodo(todoEl) {
-    todoEl.classList.toggle(TASK_DONE_CLASS);
-}
-
-function validateValue(value) {
-    if (value === '') {
-        errorContainerEl.textContent = 'Todo Name is required';
-        submitBtn.disabled = true;
-        return false;
+function saveContact(contact) {
+    if (!contact.id) {
+        addContact(contact);
     } else {
-        errorContainerEl.textContent = '';
-        submitBtn.disabled = false;
-
-        return true;
+        updateContact(contact);
     }
 }
-function changeStatus(id,condition){
-    const selectedTodo = list.find((item) => item.id === id);
-    if (condition===done) selectedTodo.completed=true;
-    else selectedTodo.completed=false;
-    renderTodoList(list);
+
+function addContact(contact) {
+   
+    fetch(API_URL, {
+        method: 'POST',
+        body: JSON.stringify(contact),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then((res) => res.json())
+        .then((data) => {
+            list = [...list, data];
+            renderContacts(list);
+        });
+    }
+
+function updateContact(contact) {
+    list = list.map((item) => (+item.id !== contact.id ? item : contact)); 
+    fetch(API_URL + contact.id, {
+        method: 'PUT',
+        body: JSON.stringify(contact),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    renderContacts(list);
+   
+}
+
+function resetForm() {
+    idEl.value = '';
+    nameEl.value = '';
+    surnameEl.value = '';
+    emailEl.value = '';
+
+    tableFooter.append(formRowEl);
+}
+
+function fillForm({ id, name, surname, email }) {
+    idEl.value = id;
+    nameEl.value = name;
+    surnameEl.value = surname;
+    emailEl.value = email;
+}
+
+function validateValues() {
+    const elements = [nameEl, surnameEl, emailEl];
+
+    const validationResults = elements.map(validateInput);
+
+    return validationResults.reduce(
+        (isValid, isElemValid) => isValid && isElemValid
+    );
+}
+
+function validateInput(input) {
+    resetInputValidation(input);
+
+    if (input.value === '') {
+        input.classList.add(INVALID_INPUT_CLASS);
+        return false;
+    }
+
+    return true;
+}
+
+function resetInputValidation(input) {
+    input.classList.remove(INVALID_INPUT_CLASS);
+}
+
+function deleteContact(id) {
+    list = list.filter((item) => item.id !== id);
+    renderContacts(list);
+
+    fetch(API_URL + id, {
+        method: 'DELETE',
+    });  
+
+}
+
+function getContactId(elem) {
+    return elem.closest(CONTACT_ITEM_CLASS).dataset.contactId;
+}
+
+function editContact(id) {
+    currentId = id;
+    const contact = list.find((item) => item.id === id);
+    fillForm(contact);
 }
