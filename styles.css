@@ -1,29 +1,23 @@
-body{
-    background-color: #f6ededd7;
+.task-list {
+    margin-bottom: 20px;
 }
-.container{
-    padding-top: 30px;
-    width: 100%;
-    display: flex;
-    justify-content: center; 
+.task-item {
+    color: #555;
+    border: 1px solid #bbb;
+    cursor: pointer;
+    padding: 10px 20px;
+    margin: 5px 0;
+    font-size: 20px;
+    background-color: lightyellow;
 }
-table{
-   border: 3px solid grey;
-   border-collapse: collapse;
+
+.task-item.done {
+    background-color: lightgreen;
 }
-th { 
-    text-align: center;
-    background: #ccc; 
-    padding: 5px; 
-    border: 1px solid black; 
-   }
-td { 
-    padding: 5px; 
-    border: 1px solid black; 
-   }
-.invalid-input {
-    background-color: red
-  }
-.hidden {
+.delete-btn {
+    float: right;
+}
+
+#todoItemTemplate {
     display: none;
-  }
+}
