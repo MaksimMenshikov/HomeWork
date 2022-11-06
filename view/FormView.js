@@ -1,7 +1,7 @@
 class FormView {
     el=null;
     #config = null;
-    taskNameInput = document.querySelector('#taskNameInput');
+    taskNameInput =null; 
     static formTemplate=`<form id="newTaskForm">
     <div class="row">
         <div class="ten columns">
@@ -16,14 +16,8 @@ class FormView {
         </div>
     </div>
 </form>`;
-    static getFormValues() {
-        return {
-            title: taskNameInput.value,
-        };
-    }
-    static resetForm() {
-        taskNameInput.value = '';
-    }
+
+  
     constructor(config){
         this.init();
         this.#config = config;
@@ -34,10 +28,20 @@ class FormView {
         this.el.innerHTML=FormView.formTemplate;
         this.el.addEventListener('submit', (e) => {
             e.preventDefault();
-            const newTask = FormView.getFormValues();
+            this.taskNameInput=document.querySelector('#taskNameInput');
+            const newTask = this.getFormValues();
             newTask.completed = false;
             this.#config.onSave(newTask)
-            FormView.resetForm();
+            this.resetForm();
         });
     }
+    getFormValues() {
+        return {
+            title: this.taskNameInput.value,
+        };
+    }
+    resetForm() {
+        this.taskNameInput.value = '';
+    }
+    
 }
