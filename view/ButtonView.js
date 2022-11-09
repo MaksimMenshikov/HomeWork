@@ -16,7 +16,6 @@ class ButtonView {
         this.$el = $(ButtonView.buttonTemplate);
 
         this.$el.on('click', (e) => {
-            e.preventDefault();
             this.#config.onSave();
         });
     }
