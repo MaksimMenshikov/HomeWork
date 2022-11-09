@@ -1,1 +1,1 @@
-new TodosController(document.querySelector('.container'));
+new StickerController($('.container'));
