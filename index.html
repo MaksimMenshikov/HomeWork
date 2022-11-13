@@ -4,21 +4,18 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <link rel="stylesheet" href="./common/css/normalize.css" />
-        <link rel="stylesheet" href="./common/css/skeleton.css" />
-        <link rel="stylesheet" href="./common/css/dark-theme.css" />
+        <link rel="stylesheet" href="fotorama.css" />
         <link rel="stylesheet" href="./styles.css" />
         <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
-        <script src="./common/js/RestApi.js" defer></script>
-        <script src="./common/js/utils.js" defer></script>
-        <script src="./view/StickersListView.js" defer></script>
-        <script src="./view/ButtonView.js" defer></script>
-        <script src="./model/StickerCollection.js" defer></script>
-        <script src="./controller/StickerController.js" defer></script>
+        <script src="./fotorama.js"></script>
         <script src="./script.js" defer></script>
-        <title>Stickers list</title>
+        <title>Image gallery</title>
     </head>
     <body>
-        <div class="container"></div>
+        <div id="fotorama" data-nav="thumbs" data-width="100%"
+        data-height="100%" ></div>
+        <script type="text/template" id="fotoTemplate">
+            <img src="{{url}}" alt="{{title}}">
+        </script>
     </body>
 </html>

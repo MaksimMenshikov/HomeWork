@@ -1,26 +1,4 @@
-.sticker-list {
-    margin-top: 30px;
-    margin-bottom: 20px;
-}
-.sticker-item {
-    width: 150px;
-    height: 100px;
-    float: left;
-    color: #555;
-    border: 15px solid #2e3436;
-    border-radius: 15%;
-    cursor: pointer;
-    padding: 10px 20px;
-    margin: 5px 0;
-    font-size: 20px;
-    background-color: lightyellow;
+body {
+    margin: 0;
 }
 
-.delete-btn {
-    float: right;
-}
-
-textarea {
-    background-color: rgb(248, 248, 241);
-    resize : none;
-}
