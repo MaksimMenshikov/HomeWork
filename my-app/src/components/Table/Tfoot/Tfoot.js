@@ -1,41 +1,59 @@
 import React, { Component } from 'react'
 
 export class Tfoot extends Component {
+    state={
+        name:'',
+        surname:'',
+        email:'',
+    };
+
+onInputChange=(e)=>{
+    this.setState({
+        [e.target.name]:e.target.value,
+    });
+
+    };
 
 onSaveBtnClick = () => {
-        let newName=document.getElementById('newContactName');
-        let newSurname= document.getElementById('newContactSurname');
-        let newEmail=document.getElementById('newContactEmail');
+ 
         this.props.onSave({
-            name: newName.value,
-            surname: newSurname.value,
-            email: newEmail.value,
+            name: this.state.name,
+            surname: this.state.surname,
+            email: this.state.email,
         }); 
-        newName.value="";
-        newSurname.value="";
-        newEmail.value="";
+
+        this.setState({
+            name:'',
+            surname:'',
+            email:'',
+        });
+       
     };
 render() {
     return (
         <tfoot >
             <tr>
                 <td>
-                    <input type="text"
-                        id="newContactName"
+                    <input 
+                        value={this.state.name}
+                        name="name"
+                        onChange={this.onInputChange}
                         placeholder="Contact name"
                     />
                 </td>
                 <td>
                     <input
-                        type="text"
-                        id="newContactSurname"
+                        value={this.state.surname}
+                        name="surname"
+                        onChange={this.onInputChange}
                         placeholder="Contact surname"
                     />
                 </td>
                 <td>
                     <input
-                        type="text"
-                        id="newContactEmail"
+                        name="email"
+                        value={this.state.email}
+                        onChange={this.onInputChange}
                         placeholder="Contact email"
                     />
                 </td>
