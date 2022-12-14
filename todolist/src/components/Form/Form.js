@@ -33,9 +33,11 @@ export default class Form extends Component {
         this.props.onSave(this.state.value);
 
         this.setState({
-            value:{
-                title:""
+            value: {
+                title: '',
             },
+            errors: {},
+            isDirty: false,
             isValid: false,
         });
     };
