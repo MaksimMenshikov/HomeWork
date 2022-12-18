@@ -3,10 +3,7 @@ import './App.css';
 import { Component } from 'react';
 import Form from '../Form/Form';
 import List from '../List/List';
-import { getTodos } from '../../services/todosService';
-import { delTodo } from '../../services/todosService';
-import { createNewTodo } from '../../services/todosService';
-import { updateTodo } from '../../services/todosService';
+import { getTodos,delTodo,createNewTodo,updateTodo  } from '../../services/todosService';
 
 class App extends Component {
     state = {
@@ -47,14 +44,14 @@ class App extends Component {
 
     render() {
         return (
-            <>
+            <div className='container'>
                 <List
                     todos={this.state.todos}
                     onToggle={this.toggleTodo}
                     onDelete={this.deleteTodo}
                 />
                 <Form onSave={this.createTodo} />
-            </>
+            </div>
         );
     }
     componentDidMount(){
