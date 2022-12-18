@@ -11,7 +11,7 @@ function Tfoot({onSave}) {
         onSave({
             name: name,
             surname:surname,
-            email:surname,
+            email:email,
         }); 
         setName("");
         setSurname("");
