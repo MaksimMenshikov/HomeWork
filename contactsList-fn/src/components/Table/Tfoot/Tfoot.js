@@ -5,7 +5,7 @@ function Tfoot({onSave}) {
     const [name,setName]=useState([]);
     const [surname,setSurname]=useState([]);
     const [email,setEmail]=useState([]);
-
+   
    function onSaveBtnClick() {
  
         onSave({
