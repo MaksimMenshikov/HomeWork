@@ -1,6 +1,6 @@
 import React from 'react'
 
-function FotolistItem({alt,url}) {
+function PhotoListItem({alt,url}) {
   return (
     <div>
         <img src={url} alt={alt}/>
@@ -8,4 +8,4 @@ function FotolistItem({alt,url}) {
   )
 }
 
-export default FotolistItem
+export default PhotoListItem

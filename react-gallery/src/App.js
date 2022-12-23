@@ -1,21 +1,27 @@
 
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import './App.css';
 import AlbumList from './modules/albumList/AlbumList';
-import FotoList from './modules/fotoList/FotoList';
+import PhotoList from './modules/photoList/PhotoList';
+import useAlbums from './modules/hooks/useAlbums';
+import usePhotos from './modules/hooks/usePhotos';
 
 function App() {
-  const [albumId,setAlbumId]=useState([])
+  const [albumId,setAlbumId]=useState();
   
-  function firstFotoAlbum(id){
-      setAlbumId(id); 
-  }
+  const albums=useAlbums();
+  const photos=usePhotos(albumId);
 
+  useEffect(()=>{
+    if(!albums.length) return;
+     setAlbumId(albums[0].id);
+  },[albums]);
+  
   return (
     <div className="App">
 
-      <AlbumList setAlbumId={setAlbumId} firstFotoAlbum={firstFotoAlbum}/>
-      <FotoList albumId={albumId}/>
+      <AlbumList albums={albums} setAlbumId={setAlbumId} />
+      <PhotoList photos={photos}/>
     </div>
   );
 }
