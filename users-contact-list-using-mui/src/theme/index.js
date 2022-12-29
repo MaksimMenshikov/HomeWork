@@ -1,6 +1,8 @@
 import { createTheme } from '@mui/material';
-import palette from './palette';
+import blue from '@mui/material/colors/blue';
 
 export default createTheme({
-  palette,
+  palette: {
+    primary: blue,
+  },
 });

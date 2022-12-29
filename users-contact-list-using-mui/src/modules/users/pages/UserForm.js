@@ -1,127 +1,102 @@
-import { Button, Paper, TextField,Typography } from '@mui/material';
-import   {useState,useEffect} from 'react';
+import { Button, Paper, TextField } from '@mui/material';
 import { NavLink, useNavigate, useParams } from 'react-router-dom';
+
+import React from 'react';
+import useForm from '../hooks/useForm';
 import useUser from '../hooks/useUser';
 import SaveAsOutlinedIcon from '@mui/icons-material/SaveAsOutlined';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
-//eslint-disable-next-line
-const EMAIL_REGEXP=/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                                                                        
+ //eslint-disable-next-line
+const EMAIL_REGEXP =/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
 function UserForm() {
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const { user, saveUser } = useUser(id);
+    const { values, errors, touched, isValid, onInputBlur, onInputChange } =
+        useForm(user, { validate });
 
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const {user, changeUser, saveUser } = useUser(id);
-  const [isDirty,setIsDirty]=useState({
-    name:false,
-    surname:false,
-    email:false,
-  });
-  const[errors,SetErrors]=useState({})
+    function validate(values) {
+        const errors = {};
 
-  useEffect(() => {
-   SetErrors(validate(user))
+        if (!values.name) {
+            errors.name = 'Name is Required';
+        }
+        if (!values.surname) {
+            errors.surname = 'Surname is Required';
+        }
+        if (!values.email.toLowerCase().match(EMAIL_REGEXP)) {
+            errors.email = 'Email is Invalid';
+        }
+        if (!values.email) {
+            errors.email = 'Email is Required';
+        }
 
-  }, [user]);
+        return errors;
+    }
 
-  function onInputChange(e) {
-  
-    changeUser({
-      [e.target.name]: e.target.value,
-    });
-  
-    setIsDirty({...isDirty,
-      [e.target.name]: true,});
-  }
+    function onFormSubmit(e) {
+        e.preventDefault();
+        saveUser(values).then(() => navigate('..'));
+    }
 
-function validate(target){
-const newErrors={}
-  if (target.name === '') {
-    newErrors.name = 'Name is required';
-  }
-  if (target.surname === '') {
-    newErrors.surname = 'Surname is required';
-  }
-  if (target.email === '') {
-     newErrors.email = 'Email is required';
-  }
-  if (!EMAIL_REGEXP.test(target.email)) {
-    newErrors.email = 'Email is Invalid';
- }
-  return newErrors;
+    return (
+        <Paper sx={{ marginTop: '20px' }}>
+            <form onSubmit={onFormSubmit}>
+                <TextField
+                    error={touched.name && !!errors.name}
+                    helperText={touched.name ? errors.name : null}
+                    name="name"
+                    label="Name"
+                    variant="outlined"
+                    fullWidth
+                    value={values.name}
+                    onChange={onInputChange}
+                    onBlur={onInputBlur}
+                />
+                <TextField
+                    error={touched.surname && !!errors.surname}
+                    helperText={touched.surname ? errors.surname : null}
+                    name="surname"
+                    label="Surname"
+                    variant="outlined"
+                    fullWidth
+                    value={values.surname}
+                    onChange={onInputChange}
+                    onBlur={onInputBlur}
+                />
+                <TextField
+                    error={touched.email && !!errors.email}
+                    helperText={touched.email ? errors.email : null}
+                    name="email"
+                    label="Email"
+                    variant="outlined"
+                    fullWidth
+                    value={values.email}
+                    onChange={onInputChange}
+                    onBlur={onInputBlur}
+                />
+                  <Button
+                      disabled={!isValid}
+                      sx={{ marginTop: '8px' }}
+                      type="submit"
+                      color="primary"
+                      variant="contained"
+                      startIcon={<SaveAsOutlinedIcon/>}
+                    >
+                      Save
+                  </Button>
+                  <Button
+                      sx={{ marginTop: '8px' }}
+                      to=".."
+                      component={NavLink}
+                      startIcon={<CancelOutlinedIcon/>}
+                    >
+                      Cancel
+                  </Button>
+            </form>
+        </Paper>
+    );
 }
 
-function isValid(){
-  return!Object.keys(errors).length;
-}
-
-  function onFormSubmit(e) {
-    e.preventDefault();
-
-    saveUser(user).then(() => navigate('..'))
-  }
-
-  return <Paper sx={{ marginTop: '20px' }}>
-    <form onSubmit={onFormSubmit}>
-    <TextField
-      name="name"
-      label="Name"
-      variant="outlined"
-      fullWidth
-      value={user.name}
-      onChange={onInputChange} />
-    {isDirty.name&&errors.name?(
-      <Typography variant="h6" color="red">
-        {errors.name}
-      </Typography >
-    ):null}
-    <TextField
-      sx={{ marginTop: '8px' }}
-      name="surname"
-      label="Surname"
-      variant="outlined"
-      fullWidth
-      value={user.surname}
-      onChange={onInputChange} />
-       {isDirty.surname&&errors.surname?(
-     <Typography variant="h6" color="red">
-        {errors.surname}
-      </Typography >
-    ):null}
-    <TextField
-      sx={{ marginTop: '8px' }}
-      name="email"
-      label="Email"
-      variant="outlined"
-      fullWidth
-      value={user.email}
-      onChange={onInputChange} />
-         {isDirty.email&&errors.email?(
-    <Typography variant="h6" color="red">
-        {errors.email}
-    </Typography >
-    ):null}
-    <Button
-      disabled={!isValid()}
-      sx={{ marginTop: '8px' }}
-      type="submit"
-      color="primary"
-      variant="contained"
-      startIcon={<SaveAsOutlinedIcon/>}
-    >
-      Save
-    </Button>
-    <Button
-      sx={{ marginTop: '8px' }}
-      to=".."
-      component={NavLink}
-      startIcon={<CancelOutlinedIcon/>}
-    >
-      Cancel
-    </Button>
-    </form>
-  </Paper>
-}
-
-export default UserForm
+export default UserForm;

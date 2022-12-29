@@ -8,38 +8,37 @@ const EMPTY_USER = {
 }
 
 export default function useUser(id) {
-  const [user, setUser] = useState(EMPTY_USER);
+      const [user, setUser] = useState(EMPTY_USER);
 
-  useEffect(() => {
-    if (id!=="new") {
-      api.get('users/' + id).then(({ data }) => setUser(data))
+      useEffect(() => {
+        if (isNaN(id)) {
+          setUser(EMPTY_USER);
+      } else {
+        
+          api.get('users/' + id)
+              .then(({ data }) => setUser(data));
+      }
+    }, [id]);
+
+      
+    function saveUser(user) {
+      if (user.id) {
+          return updateUser(user);
+      } else {
+          return createUser(user);
+      }
     }
 
-  }, [id]);
-
-  function changeUser(diff){
-    setUser({...user, ...diff}) 
-  }
-
-  function saveUser(user) {
-    if (user.id) {
-      return updateUser(user)
-    } else {
-      return createUser(user)
+    function updateUser(user) {
+      return api.put('users/' + user.id, user);
     }
-  }
 
-  function updateUser(user) {
-    return api.put('users/' + user.id, user);
-  }
+    function createUser(user) {
+      return api.post('users', user);
+    }
 
-  function createUser(user) {
-    return api.post('users/', user);
-  }
-
-  return {
-    user,
-    changeUser,
-    saveUser,
-  }
+    return {
+      user,
+      saveUser,
+    };
 }
