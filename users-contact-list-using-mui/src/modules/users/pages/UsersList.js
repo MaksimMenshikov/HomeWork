@@ -54,9 +54,9 @@ function UsersList() {
   ];
 
   return (
-   <div>{loading?('Loading..................'):(
+  
     <DataGrid
-      loading={false}
+      loading={loading}
       sx={{minHeight: '500px'}}
       rows={list}
       columns={columns}
@@ -64,8 +64,7 @@ function UsersList() {
       pageSize={5}
       rowsPerPageOptions={[5]}
     />
-    )}
-    </div>
+    
   )
 }
 
