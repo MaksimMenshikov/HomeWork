@@ -7,7 +7,7 @@ function Home() {
     <Box sx={{ display: 'flex' }}>
 
       <Typography variant="h5" component="h2">
-        HomeWork №26&27 Users-list using  Material UI
+        HomeWork №29 Users-list using  Material UI, Formik, Redux
             powered by Maxim Menshikov
       </Typography>
       

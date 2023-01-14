@@ -10,14 +10,21 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from '@mui/system';
 import theme from './theme';
+import { getUsers } from './store/actions/users';
+import store from './store';
+import { Provider } from 'react-redux';
 
+store.dispatch(getUsers());
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+    
     <BrowserRouter>
         <ThemeProvider theme={theme}>
+        <Provider store={store}>
             <App />
+        </Provider>
         </ThemeProvider>
     </BrowserRouter>
-
+   
 );
 

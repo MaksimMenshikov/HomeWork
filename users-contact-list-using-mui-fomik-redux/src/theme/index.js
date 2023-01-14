@@ -5,4 +5,11 @@ export default createTheme({
   palette: {
     primary: blue,
   },
+  components:{
+    MyTextField:{
+      defaultProps:{
+        variant:'outlined',
+      },
+    },
+  },
 });

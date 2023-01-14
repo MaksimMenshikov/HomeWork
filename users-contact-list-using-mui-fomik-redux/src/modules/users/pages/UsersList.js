@@ -4,11 +4,15 @@ import { DataGrid } from '@mui/x-data-grid';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import { Box, IconButton } from '@mui/material';
-import useUsersList from '../hooks/useUsersList';
+import { selectList,selectIsLoading } from '../../../store/selectors/users';
+import { useSelector } from 'react-redux';
+import { deleteUser} from '../../../store/actions/users';
+import { useDispatch } from 'react-redux';
 
 function UsersList() {
-  const { list, deleteUser,loading } = useUsersList();
- 
+  const list = useSelector(selectList);
+  const loading = useSelector(selectIsLoading);
+  const dispatch = useDispatch();
   const columns = [
     {
       field: "name",
@@ -42,7 +46,7 @@ function UsersList() {
             </IconButton>
             <IconButton
               onClick={() => {
-                deleteUser(params.id)
+                dispatch(deleteUser(params.id));
               }}
             >
               <DeleteTwoToneIcon/>
@@ -61,8 +65,8 @@ function UsersList() {
       rows={list}
       columns={columns}
       editable
-      pageSize={5}
-      rowsPerPageOptions={[5]}
+      pageSize={9}
+      rowsPerPageOptions={[9]}
     />
     
   )
