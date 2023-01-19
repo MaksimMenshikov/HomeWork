@@ -1,10 +1,10 @@
 import { Form, Formik } from 'formik';
-import React,{useState} from 'react';
+import React from 'react';
 import { Button} from '@mui/material';
 import { Navigate } from 'react-router-dom';
 import loginValidationSchema from '../validation/loginValidationSchema';
 import useAuth from '../hooks/useAuth';
-import MyTextField from '../../components/form/MyTextField'
+import MyTextField from '../../form/MyTextField'
 import Avatar from '@mui/material/Avatar';
 import CssBaseline from '@mui/material/CssBaseline';
 import Link from '@mui/material/Link';
@@ -15,22 +15,18 @@ import Container from '@mui/material/Container';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import MySelect from '../../form/MySelect';
 
-const initialValues = { username: '', password: '', role: '' };
+const initialValues = { username: '', password: '', role:'admin' };
 
  
 
 function Login() {
     const auth = useAuth();
-    const [role, setRole] =useState('user');
-  
-    const handleChange = (e) => {
-      setRole(e.target.value );
-    };
+   
 
     function onSubmit(values) {
-        auth.login(values.username, values.password, role);
+        auth.login(values.username, values.password, values.role);
     }
 
     return (
@@ -67,16 +63,15 @@ function Login() {
                                     
                                     <FormControl fullWidth>
                                     <InputLabel name='role'>role</InputLabel>
-                                        <Select
-                                            
-                                            value={role}
-                                            label="role"
-                                            onChange={handleChange}
+                                        <MySelect  name="role" 
+                                                 fullWidth 
+                                                 label="Role" 
+                                                 id="role"
                                         >
                                             <MenuItem value={'admin'}>Admin</MenuItem>
                                             <MenuItem value={'user'}>User</MenuItem>
 
-                                        </Select>
+                                        </MySelect>
                                     </FormControl>
                                     <Button
                                         disabled={!isValid}
