@@ -12,12 +12,9 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import MySelect from '../../form/MySelect';
+import api from '../../../../api';
 
-const initialValues = { username: '', password: '', role:'admin' };
+const initialValues = { username: '', password: ''};
 
  
 
@@ -25,8 +22,21 @@ function Login() {
     const auth = useAuth();
    
 
-    function onSubmit(values) {
-        auth.login(values.username, values.password, values.role);
+    function onSubmit(values, meta) {
+        auth.login(values.username, values.password).catch((error) => {
+            if (error.response.status >= 400 && error.response.status < 500) {
+                meta.setErrors({
+                    password: error.response.data.error,
+                });
+            }
+        });
+    }
+    function simulateError() {
+        api.get('error', {
+            headers: {
+                Authorization: 'Bearer 123',
+            },
+        });
     }
 
     return (
@@ -57,22 +67,8 @@ function Login() {
                                     
                                     <MyTextField name="username" label="Name" />
                                    
-                                    <MyTextField name="password" label="Password" />
-                                    
-                                   
-                                    
-                                    <FormControl fullWidth>
-                                    <InputLabel name='role'>role</InputLabel>
-                                        <MySelect  name="role" 
-                                                 fullWidth 
-                                                 label="Role" 
-                                                 id="role"
-                                        >
-                                            <MenuItem value={'admin'}>Admin</MenuItem>
-                                            <MenuItem value={'user'}>User</MenuItem>
-
-                                        </MySelect>
-                                    </FormControl>
+                                    <MyTextField name="password" label="Password" type="password" />
+                                
                                     <Button
                                         disabled={!isValid}
                                         fullWidth
@@ -82,6 +78,14 @@ function Login() {
                                         variant="contained"
                                         >
                                         Sign In
+                                    </Button>
+                                    <Button
+                                            fullWidth
+                                            variant="contained"
+                                            sx={{ mt: 3, mb: 2 }}
+                                            onClick={simulateError}
+                                        >
+                                            Error
                                     </Button>
                             </Form>
                             <Grid container>
