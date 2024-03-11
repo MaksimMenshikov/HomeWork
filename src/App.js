@@ -12,7 +12,7 @@ function App() {
   const checkPasswordStrength = (password) => {
   
     if (password.length === 0) {
-      setFirstSectionsColor('gray');
+       setFirstSectionsColor('gray');
       setSecondSectionsColor('gray');
       setThirdSectionsColor('gray');
     } else if (password.length < 8) {
